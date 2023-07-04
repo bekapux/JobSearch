@@ -3,5 +3,5 @@
 public interface IUnitOfWork : IDisposable
 {
     IJobRepository JobRepository { get; }
-    Task SaveAsync();
+    Task<int> SaveAsync();
 }

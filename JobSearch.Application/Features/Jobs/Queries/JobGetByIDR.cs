@@ -28,7 +28,7 @@ public sealed class JobGetByIDRH : IRequestHandler<JobGetByIDR, JobDto>
             throw new NotFoundException(nameof(Job), request.Id);
         }
 
-        var result = _jobMapper.JobToJobDto(job);
+        var result = _jobMapper.Job_To_JobDto(job);
 
         return result;
     }

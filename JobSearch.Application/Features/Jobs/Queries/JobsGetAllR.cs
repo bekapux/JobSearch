@@ -22,7 +22,7 @@ public sealed class JobsGetAllRH : IRequestHandler<JobsGetAllR, IEnumerable<JobD
     {
         var jobs = await _unitOfWork.JobRepository.GetAll(cancellationToken);
 
-        var result = _jobMapper.JobListToJobDtoList(jobs);
+        var result = _jobMapper.JobList_To_JobDtoList(jobs);
 
         return result;
     }

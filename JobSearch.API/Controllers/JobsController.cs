@@ -1,4 +1,5 @@
-﻿using JobSearch.Application.Features.Jobs.Mapper.Dtos;
+﻿using JobSearch.Application.Features.Jobs.Commands;
+using JobSearch.Application.Features.Jobs.Mapper.Dtos;
 using JobSearch.Application.Features.Jobs.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,27 @@ public class JobsController : ControllerBase
     public async Task<ActionResult<IEnumerable<JobDto>>> GetByName(string companyName)
     {
         var result = await _mediator.Send(new JobsGetByCompanyNameR(companyName));
+        return Ok(result);
+    }
+
+    [HttpPost("add")]
+    public async Task<ActionResult<bool>> Add(JobAddC newJob)
+    {
+        var result = await _mediator.Send(newJob);
+        return Ok(result);
+    }
+
+    [HttpPut("update")]
+    public async Task<ActionResult<bool>> Update(JobUpdateC jobUpdateC)
+    {
+        var result = await _mediator.Send(jobUpdateC);
+        return Ok(result);
+    }
+
+    [HttpPut("delete")]
+    public async Task<ActionResult<bool>> Delete(JobDeleteC jobDeleteC)
+    {
+        var result = await _mediator.Send(jobDeleteC);
         return Ok(result);
     }
 

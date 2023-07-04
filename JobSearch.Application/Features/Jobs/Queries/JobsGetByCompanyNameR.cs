@@ -23,7 +23,7 @@ public sealed class JobsGetByCompanyNameRH : IRequestHandler<JobsGetByCompanyNam
     {
         var jobs = await _unitOfWork.JobRepository.GetJobsByCompanyName(request.CompanyName);
 
-        var result = _jobMapper.JobListToJobDtoList(jobs);
+        var result = _jobMapper.JobList_To_JobDtoList(jobs);
 
         return result;
     }
