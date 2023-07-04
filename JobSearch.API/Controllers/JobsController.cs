@@ -1,5 +1,5 @@
-﻿using JobSearch.Application.Features.Jobs.Queries;
-using JobSearch.Domain;
+﻿using JobSearch.Application.Features.Jobs.Mapper.Dtos;
+using JobSearch.Application.Features.Jobs.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,17 +22,24 @@ public class JobsController : ControllerBase
 
     #region Actions
 
-    [HttpGet("jobs")]
-    public async Task<ActionResult<IEnumerable<Job>>> GetAll()
+    [HttpGet("get-all")]
+    public async Task<ActionResult<IEnumerable<JobDto>>> GetAll()
     {
         var result = await _mediator.Send(new JobsGetAllR());
         return Ok(result);
     }
 
-    [HttpGet("job/{id:int}")]
-    public async Task<ActionResult<IEnumerable<Job>>> GetById(int id)
+    [HttpGet("get-by-id/{id:int}")]
+    public async Task<ActionResult<JobDto>> GetById(int id)
     {
         var result = await _mediator.Send(new JobGetByIDR(id));
+        return Ok(result);
+    }
+
+    [HttpGet("get-by-name/{companyName}")]
+    public async Task<ActionResult<IEnumerable<JobDto>>> GetByName(string companyName)
+    {
+        var result = await _mediator.Send(new JobsGetByCompanyNameR(companyName));
         return Ok(result);
     }
 

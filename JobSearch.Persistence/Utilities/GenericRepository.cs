@@ -3,6 +3,7 @@
 using JobSearch.Application.Contracts;
 using JobSearch.Persistence.DBConfig;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace JobSearch.Persistence.Utilities;
 
@@ -32,19 +33,19 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _dbContext.Set<T>().Remove(entity);
     }
 
-    public async Task<bool> Exists(int id)
+    public async Task<bool> Exists(int id, CancellationToken token)
     {
-        return await Get(id) != null;
+        return await Get(id, token) != null;
     }
 
-    public virtual async Task<T> Get(int id)
+    public virtual async Task<T> Get(int id, CancellationToken token)
     {
-        return await _dbContext.Set<T>().FindAsync(id);
+        return await _dbContext.Set<T>().FindAsync(new object[] { id }, token);
     }
 
-    public async Task<IReadOnlyList<T>> GetAll()
+    public async Task<IReadOnlyList<T>> GetAll(CancellationToken cancellation)
     {
-        return await _dbContext.Set<T>().AsNoTracking().ToListAsync();
+        return await _dbContext.Set<T>().AsNoTracking().ToListAsync(cancellation);
     }
 
     public virtual async Task Update(T entity)

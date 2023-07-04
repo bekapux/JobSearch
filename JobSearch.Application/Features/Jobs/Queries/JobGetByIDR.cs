@@ -1,32 +1,34 @@
-﻿using JobSearch.Application.Exceptions;
-
-namespace JobSearch.Application.Features.Jobs.Queries;
+﻿namespace JobSearch.Application.Features.Jobs.Queries;
 
 public sealed record JobGetByIDR(
     int Id
-) : IRequest<Job>;
+) : IRequest<JobDto>;
 
-public sealed class JobGetByIDRH : IRequestHandler<JobGetByIDR, Job>
+public sealed class JobGetByIDRH : IRequestHandler<JobGetByIDR, JobDto>
 {
     #region Constructor
 
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IJobMapper _jobMapper;
 
-    public JobGetByIDRH(IUnitOfWork unitOfWork)
+    public JobGetByIDRH(IUnitOfWork unitOfWork, IJobMapper jobMapper)
     {
         _unitOfWork = unitOfWork;
+        _jobMapper = jobMapper;
     }
 
     #endregion
 
-    public async Task<Job> Handle(JobGetByIDR request, CancellationToken cancellationToken)
+    public async Task<JobDto> Handle(JobGetByIDR request, CancellationToken cancellationToken)
     {
-        var result = await _unitOfWork.JobRepository.Get(request.Id);
+        var job = await _unitOfWork.JobRepository.Get(request.Id, cancellationToken);
 
-        if (result is null)
+        if (job is null)
         {
             throw new NotFoundException(nameof(Job), request.Id);
         }
+
+        var result = _jobMapper.JobToJobDto(job);
 
         return result;
     }
