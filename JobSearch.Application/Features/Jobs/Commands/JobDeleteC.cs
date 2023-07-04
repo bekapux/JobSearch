@@ -36,6 +36,6 @@ public sealed class JobDeleteCH : IRequestHandler<JobDeleteC, bool>
             _unitOfWork.JobRepository.SoftDelete(job);
         }
 
-        return await _unitOfWork.SaveAsync() == 1;
+        return await _unitOfWork.SaveAsync(cancellationToken) == 1;
     }
 }

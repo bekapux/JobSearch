@@ -10,4 +10,6 @@ public partial class JobMapper : IJobMapper
     public partial IEnumerable<JobDto> JobList_To_JobDtoList(IEnumerable<Job> job);
     public partial Job JobAddC_To_Job(JobAddC job);
     public partial void JobUpdateC_To_Job(JobUpdateC jobUpdateC, Job job);
+
+    public partial PaginatedListResult<JobDto> Jobs_To_JobDto(PaginatedListResult<Job> jobs);
 }

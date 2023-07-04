@@ -41,6 +41,6 @@ public sealed class JobUpdateCH : IRequestHandler<JobUpdateC, bool>
 
         _unitOfWork.JobRepository.Update(job);
 
-        return await _unitOfWork.SaveAsync() == 1;
+        return await _unitOfWork.SaveAsync(cancellationToken) == 1;
     }
 }

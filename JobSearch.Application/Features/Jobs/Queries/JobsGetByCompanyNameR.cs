@@ -8,12 +8,12 @@ public sealed class JobsGetByCompanyNameRH : IRequestHandler<JobsGetByCompanyNam
 {
     #region Constructor
 
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IJobRepository _jobRepository;
     private readonly IJobMapper _jobMapper;
 
-    public JobsGetByCompanyNameRH(IUnitOfWork unitOfWork, IJobMapper jobMapper)
+    public JobsGetByCompanyNameRH(IJobRepository jobRepository, IJobMapper jobMapper)
     {
-        _unitOfWork = unitOfWork;
+        _jobRepository = jobRepository;
         _jobMapper = jobMapper;
     }
 
@@ -21,7 +21,7 @@ public sealed class JobsGetByCompanyNameRH : IRequestHandler<JobsGetByCompanyNam
 
     public async Task<IEnumerable<JobDto>> Handle(JobsGetByCompanyNameR request, CancellationToken cancellationToken)
     {
-        var jobs = await _unitOfWork.JobRepository.GetJobsByCompanyName(request.CompanyName);
+        var jobs = await _jobRepository.GetJobsByCompanyName(request.CompanyName, cancellationToken);
 
         var result = _jobMapper.JobList_To_JobDtoList(jobs);
 

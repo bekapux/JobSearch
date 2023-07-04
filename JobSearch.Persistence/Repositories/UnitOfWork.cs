@@ -9,12 +9,10 @@ public class UnitOfWork : IUnitOfWork
     #region Constructor
 
     private readonly JobSearchDbContext _context;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public UnitOfWork(JobSearchDbContext context, IHttpContextAccessor httpContextAccessor)
+    public UnitOfWork(JobSearchDbContext context)
     {
         _context = context;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     #endregion
@@ -29,9 +27,9 @@ public class UnitOfWork : IUnitOfWork
         GC.SuppressFinalize(this);
     }
 
-    public async Task<int> SaveAsync()
+    public async Task<int> SaveAsync(CancellationToken cancellationToken)
     {
-        return await _context.SaveChangesAsync();
+        return await _context.SaveChangesAsync(cancellationToken);
     }
     #endregion
 }

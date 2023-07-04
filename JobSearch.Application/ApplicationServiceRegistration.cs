@@ -6,6 +6,7 @@ global using JobSearch.Application.Features.Jobs.Mapper.Dtos;
 global using JobSearch.Application.Exceptions;
 global using JobSearch.Application.Features.Utilities;
 global using JobSearch.Application.Features.Jobs.Validators;
+global using JobSearch.Application.BaseModels;
 
 using Microsoft.Extensions.DependencyInjection;
 

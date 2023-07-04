@@ -15,7 +15,6 @@ public static class ServiceRegistration
 
     public static void AddDotNetServices(WebApplicationBuilder builder)
     {
-        builder.Services.AddHttpContextAccessor();
         builder.Services.AddControllers().AddJsonOptions(opt =>
         {
             opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

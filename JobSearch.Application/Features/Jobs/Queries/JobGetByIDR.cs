@@ -8,12 +8,12 @@ public sealed class JobGetByIDRH : IRequestHandler<JobGetByIDR, JobDto>
 {
     #region Constructor
 
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IJobRepository _jobRepository;
     private readonly IJobMapper _jobMapper;
 
-    public JobGetByIDRH(IUnitOfWork unitOfWork, IJobMapper jobMapper)
+    public JobGetByIDRH(IJobRepository jobRepository, IJobMapper jobMapper)
     {
-        _unitOfWork = unitOfWork;
+        _jobRepository = jobRepository;
         _jobMapper = jobMapper;
     }
 
@@ -21,7 +21,7 @@ public sealed class JobGetByIDRH : IRequestHandler<JobGetByIDR, JobDto>
 
     public async Task<JobDto> Handle(JobGetByIDR request, CancellationToken cancellationToken)
     {
-        var job = await _unitOfWork.JobRepository.Get(request.Id, cancellationToken);
+        var job = await _jobRepository.Get(request.Id, cancellationToken);
 
         if (job is null)
         {

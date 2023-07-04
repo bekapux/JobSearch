@@ -30,7 +30,7 @@ public sealed class JobAddCH : IRequestHandler<JobAddC, bool>
         var newJob = _jobMapper.JobAddC_To_Job(request);
 
         await _unitOfWork.JobRepository.Add(newJob);
-        var isAdded = await _unitOfWork.SaveAsync() == 1;
+        var isAdded = await _unitOfWork.SaveAsync(cancellationToken) == 1;
         return isAdded;
     }
 }

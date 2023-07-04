@@ -7,12 +7,12 @@ public sealed class JobsGetAllRH : IRequestHandler<JobsGetAllR, IEnumerable<JobD
 {
     #region Constructor
 
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IJobRepository _jobRepository;
     private readonly IJobMapper _jobMapper;
 
-    public JobsGetAllRH(IUnitOfWork unitOfWork, IJobMapper jobMapper)
+    public JobsGetAllRH(IJobRepository jobRepository, IJobMapper jobMapper)
     {
-        _unitOfWork = unitOfWork;
+        _jobRepository = jobRepository;
         _jobMapper = jobMapper;
     }
 
@@ -20,7 +20,7 @@ public sealed class JobsGetAllRH : IRequestHandler<JobsGetAllR, IEnumerable<JobD
 
     public async Task<IEnumerable<JobDto>> Handle(JobsGetAllR request, CancellationToken cancellationToken)
     {
-        var jobs = await _unitOfWork.JobRepository.GetAll(cancellationToken);
+        var jobs = await _jobRepository.GetAll(cancellationToken);
 
         var result = _jobMapper.JobList_To_JobDtoList(jobs);
 

@@ -16,6 +16,7 @@ public static class PersistenceServiceRegistration
                     b => b.MigrationsAssembly(typeof(JobSearchDbContext).Assembly.FullName)).EnableSensitiveDataLogging());
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IJobRepository, JobRepository>();
 
         return services;
     }

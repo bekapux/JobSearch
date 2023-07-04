@@ -15,11 +15,14 @@ internal static class QueryableExtensions
         return query.Skip(skip).Take(pageSize.Value);
     }
 
-    public static async Task<PaginatedListResult<T>> ToPaginatedListAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize)
+    public static async Task<PaginatedListResult<T>> ToPaginatedListAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         var totalRecords = await query.CountAsync();
         var totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
-        var resultList = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        var resultList = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
 
         return new PaginatedListResult<T>
         {

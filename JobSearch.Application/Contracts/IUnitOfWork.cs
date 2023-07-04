@@ -3,5 +3,5 @@
 public interface IUnitOfWork : IDisposable
 {
     IJobRepository JobRepository { get; }
-    Task<int> SaveAsync();
+    Task<int> SaveAsync(CancellationToken cancellationToken);
 }

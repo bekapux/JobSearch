@@ -1,6 +1,8 @@
-﻿using JobSearch.Application.Contracts;
+﻿using JobSearch.Application.BaseModels;
+using JobSearch.Application.Contracts;
 using JobSearch.Domain;
 using JobSearch.Persistence.DBConfig;
+using JobSearch.Persistence.Extensions;
 using JobSearch.Persistence.Utilities;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,16 +20,23 @@ internal class JobRepository : GenericRepository<Job>, IJobRepository
 
     #region Methods
 
-    #endregion
-    public async Task<List<Job>> GetJobsByCompanyName(string companyNameFragment)
+    public async Task<List<Job>> GetJobsByCompanyName(string companyNameFragment, CancellationToken cancellationToken)
     {
         var jobs = await _dbContext.Jobs
-            .Where(x=> 
+            .Where(x =>
                 x.CompanyName!
                     .ToLower()
                     .Contains(companyNameFragment)
                 )
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
         return jobs;
     }
+
+    public async Task<PaginatedListResult<Job>> GetPaginated(int pageNumber, int itemsPerPage = 25, CancellationToken cancellationToken = default)
+    {
+        var result = await _dbContext.Jobs.ToPaginatedListAsync(pageNumber, itemsPerPage, cancellationToken);
+        return result;
+    }
+
+    #endregion
 }
