@@ -1,6 +1,8 @@
-﻿namespace JobSearch.Domain.Utility;
+﻿global using JobSearch.Domain.Utility;
 
-public class BaseDomainEntity : IBaseDomainEntity
+namespace JobSearch.Domain.Utility;
+
+public class BaseDomainEntity
 {
     public int Id { get; set; }
     public DateTime DateCreated { get; set; }

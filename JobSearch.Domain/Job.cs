@@ -1,6 +1,4 @@
-﻿using JobSearch.Domain.Utility;
-
-namespace JobSearch.Domain;
+﻿namespace JobSearch.Domain;
 
 public class Job : BaseDomainEntity
 {
